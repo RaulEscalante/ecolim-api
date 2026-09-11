@@ -1,0 +1,18 @@
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Configuración de IDE
+.vscode/
+.idea/
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Archivos de entorno
+.env
+.env.*
+
+# Dependencias
+/vendor/
