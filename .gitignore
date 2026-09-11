@@ -13,6 +13,7 @@ Thumbs.db
 # Archivos de entorno
 .env
 .env.*
+certificados/
 
 # Dependencias
 /vendor/

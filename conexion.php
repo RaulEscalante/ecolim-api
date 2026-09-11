@@ -2,24 +2,28 @@
 
 header("Content-Type: application/json; charset=UTF-8");
 
-// Configuración de la base de datos
-$host = getenv("MYSQLHOST") ?: "localhost";
-$puerto = getenv("MYSQLPORT") ?: "3306";
-$usuario = getenv("MYSQLUSER") ?: "root";
-$password = getenv("MYSQLPASSWORD") ?: "";
-$baseDatos = getenv("MYSQLDATABASE") ?: "ecolim";
+$host = getenv("DB_HOST") ?: "localhost";
+$port = getenv("DB_PORT") ?: "3306";
+$baseDatos = getenv("DB_NAME") ?: "ecolim";
+$usuario = getenv("DB_USER") ?: "root";
+$password = getenv("DB_PASSWORD") ?: "";
+
+$certificado = __DIR__ . "/certificados/ca.pem";
 
 try {
 
-    $conexion = new PDO(
-        "mysql:host=$host;port=$puerto;dbname=$baseDatos;charset=utf8mb4",
-        $usuario,
-        $password
-    );
+    $dsn = "mysql:host=$host;port=$port;dbname=$baseDatos;charset=utf8mb4";
 
-    $conexion->setAttribute(
-        PDO::ATTR_ERRMODE,
-        PDO::ERRMODE_EXCEPTION
+    $conexion = new PDO(
+        $dsn,
+        $usuario,
+        $password,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::MYSQL_ATTR_SSL_CA => $certificado,
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true
+        ]
     );
 
 } catch (PDOException $e) {
