@@ -8,7 +8,9 @@ $baseDatos = getenv("DB_NAME") ?: "ecolim";
 $usuario = getenv("DB_USER") ?: "root";
 $password = getenv("DB_PASSWORD") ?: "";
 
-$certificado = __DIR__ . "/certificados/ca.pem";
+$certificado = file_exists("/etc/secrets/ca.pem")
+    ? "/etc/secrets/ca.pem"
+    : __DIR__ . "/certificados/ca.pem";
 
 try {
 
