@@ -21,14 +21,18 @@ try {
         [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+
             PDO::MYSQL_ATTR_SSL_CA => $certificado,
-            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
         ]
     );
 
+    $resultado = $conexion->query("SELECT VERSION()")->fetchColumn();
+
     echo json_encode([
         "ok" => true,
-        "mensaje" => "Conexión PDO con Aiven exitosa"
+        "mensaje" => "Conexión PDO con Aiven exitosa",
+        "version_mysql" => $resultado
     ]);
 
 } catch (PDOException $e) {
