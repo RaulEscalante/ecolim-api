@@ -14,7 +14,13 @@ $certificado = file_exists("/etc/secrets/ca.pem")
 
 try {
 
-    $dsn = "mysql:host=$host;port=$port;dbname=$baseDatos;charset=utf8mb4";
+    $dsn = "mysql:"
+        . "host=$host;"
+        . "port=$port;"
+        . "dbname=$baseDatos;"
+        . "charset=utf8mb4;"
+        . "sslmode=verify-ca;"
+        . "sslrootcert=" . $certificado;
 
     $conexion = new PDO(
         $dsn,
@@ -22,9 +28,7 @@ try {
         $password,
         [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::MYSQL_ATTR_SSL_CA => $certificado,
-            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]
     );
 
